@@ -1,0 +1,744 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/><title>Douban &amp; Reddit Case Study</title><style>
+/* cspell:disable-file */
+/* webkit printing magic: print all background colors */
+html {
+	-webkit-print-color-adjust: exact;
+}
+* {
+	box-sizing: border-box;
+	-webkit-print-color-adjust: exact;
+}
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+}
+@media only screen {
+	body {
+		margin: 2em auto;
+		max-width: 900px;
+		color: rgb(55, 53, 47);
+	}
+}
+
+body {
+	line-height: 1.5;
+	white-space: pre-wrap;
+}
+
+a,
+a.visited {
+	color: inherit;
+	text-decoration: underline;
+}
+
+.pdf-relative-link-path {
+	font-size: 80%;
+	color: #444;
+}
+
+h1,
+h2,
+h3 {
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.page-title {
+	font-size: 2.5rem;
+	font-weight: 700;
+	margin-top: 0;
+	margin-bottom: 0.75em;
+}
+
+h1 {
+	font-size: 1.875rem;
+	margin-top: 1.875rem;
+}
+
+h2 {
+	font-size: 1.5rem;
+	margin-top: 1.5rem;
+}
+
+h3 {
+	font-size: 1.25rem;
+	margin-top: 1.25rem;
+}
+
+.source {
+	border: 1px solid #ddd;
+	border-radius: 3px;
+	padding: 1.5em;
+	word-break: break-all;
+}
+
+.callout {
+	border-radius: 3px;
+	padding: 1rem;
+}
+
+figure {
+	margin: 1.25em 0;
+	page-break-inside: avoid;
+}
+
+figcaption {
+	opacity: 0.5;
+	font-size: 85%;
+	margin-top: 0.5em;
+}
+
+mark {
+	background-color: transparent;
+}
+
+.indented {
+	padding-left: 1.5em;
+}
+
+hr {
+	background: transparent;
+	display: block;
+	width: 100%;
+	height: 1px;
+	visibility: visible;
+	border: none;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.09);
+}
+
+img {
+	max-width: 100%;
+}
+
+@media only print {
+	img {
+		max-height: 100vh;
+		object-fit: contain;
+	}
+}
+
+@page {
+	margin: 1in;
+}
+
+.collection-content {
+	font-size: 0.875rem;
+}
+
+.column-list {
+	display: flex;
+	justify-content: space-between;
+}
+
+.column {
+	padding: 0 1em;
+}
+
+.column:first-child {
+	padding-left: 0;
+}
+
+.column:last-child {
+	padding-right: 0;
+}
+
+.table_of_contents-item {
+	display: block;
+	font-size: 0.875rem;
+	line-height: 1.3;
+	padding: 0.125rem;
+}
+
+.table_of_contents-indent-1 {
+	margin-left: 1.5rem;
+}
+
+.table_of_contents-indent-2 {
+	margin-left: 3rem;
+}
+
+.table_of_contents-indent-3 {
+	margin-left: 4.5rem;
+}
+
+.table_of_contents-link {
+	text-decoration: none;
+	opacity: 0.7;
+	border-bottom: 1px solid rgba(55, 53, 47, 0.18);
+}
+
+table,
+th,
+td {
+	border: 1px solid rgba(55, 53, 47, 0.09);
+	border-collapse: collapse;
+}
+
+table {
+	border-left: none;
+	border-right: none;
+}
+
+th,
+td {
+	font-weight: normal;
+	padding: 0.25em 0.5em;
+	line-height: 1.5;
+	min-height: 1.5em;
+	text-align: left;
+}
+
+th {
+	color: rgba(55, 53, 47, 0.6);
+}
+
+ol,
+ul {
+	margin: 0;
+	margin-block-start: 0.6em;
+	margin-block-end: 0.6em;
+}
+
+li > ol:first-child,
+li > ul:first-child {
+	margin-block-start: 0.6em;
+}
+
+ul > li {
+	list-style: disc;
+}
+
+ul.to-do-list {
+	padding-inline-start: 0;
+}
+
+ul.to-do-list > li {
+	list-style: none;
+}
+
+.to-do-children-checked {
+	text-decoration: line-through;
+	opacity: 0.375;
+}
+
+ul.toggle > li {
+	list-style: none;
+}
+
+ul {
+	padding-inline-start: 1.7em;
+}
+
+ul > li {
+	padding-left: 0.1em;
+}
+
+ol {
+	padding-inline-start: 1.6em;
+}
+
+ol > li {
+	padding-left: 0.2em;
+}
+
+.mono ol {
+	padding-inline-start: 2em;
+}
+
+.mono ol > li {
+	text-indent: -0.4em;
+}
+
+.toggle {
+	padding-inline-start: 0em;
+	list-style-type: none;
+}
+
+/* Indent toggle children */
+.toggle > li > details {
+	padding-left: 1.7em;
+}
+
+.toggle > li > details > summary {
+	margin-left: -1.1em;
+}
+
+.selected-value {
+	display: inline-block;
+	padding: 0 0.5em;
+	background: rgba(206, 205, 202, 0.5);
+	border-radius: 3px;
+	margin-right: 0.5em;
+	margin-top: 0.3em;
+	margin-bottom: 0.3em;
+	white-space: nowrap;
+}
+
+.collection-title {
+	display: inline-block;
+	margin-right: 1em;
+}
+
+.page-description {
+    margin-bottom: 2em;
+}
+
+.simple-table {
+	margin-top: 1em;
+	font-size: 0.875rem;
+	empty-cells: show;
+}
+.simple-table td {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table th {
+	height: 29px;
+	min-width: 120px;
+}
+
+.simple-table-header-color {
+	background: rgb(247, 246, 243);
+	color: black;
+}
+.simple-table-header {
+	font-weight: 500;
+}
+
+time {
+	opacity: 0.5;
+}
+
+.icon {
+	display: inline-block;
+	max-width: 1.2em;
+	max-height: 1.2em;
+	text-decoration: none;
+	vertical-align: text-bottom;
+	margin-right: 0.5em;
+}
+
+img.icon {
+	border-radius: 3px;
+}
+
+.user-icon {
+	width: 1.5em;
+	height: 1.5em;
+	border-radius: 100%;
+	margin-right: 0.5rem;
+}
+
+.user-icon-inner {
+	font-size: 0.8em;
+}
+
+.text-icon {
+	border: 1px solid #000;
+	text-align: center;
+}
+
+.page-cover-image {
+	display: block;
+	object-fit: cover;
+	width: 100%;
+	max-height: 30vh;
+}
+
+.page-header-icon {
+	font-size: 3rem;
+	margin-bottom: 1rem;
+}
+
+.page-header-icon-with-cover {
+	margin-top: -0.72em;
+	margin-left: 0.07em;
+}
+
+.page-header-icon img {
+	border-radius: 3px;
+}
+
+.link-to-page {
+	margin: 1em 0;
+	padding: 0;
+	border: none;
+	font-weight: 500;
+}
+
+p > .user {
+	opacity: 0.5;
+}
+
+td > .user,
+td > time {
+	white-space: nowrap;
+}
+
+input[type="checkbox"] {
+	transform: scale(1.5);
+	margin-right: 0.6em;
+	vertical-align: middle;
+}
+
+p {
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+.image {
+	border: none;
+	margin: 1.5em 0;
+	padding: 0;
+	border-radius: 0;
+	text-align: center;
+}
+
+.code,
+code {
+	background: rgba(135, 131, 120, 0.15);
+	border-radius: 3px;
+	padding: 0.2em 0.4em;
+	border-radius: 3px;
+	font-size: 85%;
+	tab-size: 2;
+}
+
+code {
+	color: #eb5757;
+}
+
+.code {
+	padding: 1.5em 1em;
+}
+
+.code-wrap {
+	white-space: pre-wrap;
+	word-break: break-all;
+}
+
+.code > code {
+	background: none;
+	padding: 0;
+	font-size: 100%;
+	color: inherit;
+}
+
+blockquote {
+	font-size: 1.25em;
+	margin: 1em 0;
+	padding-left: 1em;
+	border-left: 3px solid rgb(55, 53, 47);
+}
+
+.bookmark {
+	text-decoration: none;
+	max-height: 8em;
+	padding: 0;
+	display: flex;
+	width: 100%;
+	align-items: stretch;
+}
+
+.bookmark-title {
+	font-size: 0.85em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 1.75em;
+	white-space: nowrap;
+}
+
+.bookmark-text {
+	display: flex;
+	flex-direction: column;
+}
+
+.bookmark-info {
+	flex: 4 1 180px;
+	padding: 12px 14px 14px;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.bookmark-image {
+	width: 33%;
+	flex: 1 1 180px;
+	display: block;
+	position: relative;
+	object-fit: cover;
+	border-radius: 1px;
+}
+
+.bookmark-description {
+	color: rgba(55, 53, 47, 0.6);
+	font-size: 0.75em;
+	overflow: hidden;
+	max-height: 4.5em;
+	word-break: break-word;
+}
+
+.bookmark-href {
+	font-size: 0.75em;
+	margin-top: 0.25em;
+}
+
+.sans { font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol"; }
+.code { font-family: "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace; }
+.serif { font-family: Lyon-Text, Georgia, ui-serif, serif; }
+.mono { font-family: iawriter-mono, Nitti, Menlo, Courier, monospace; }
+.pdf .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK JP'; }
+.pdf:lang(zh-CN) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK SC'; }
+.pdf:lang(zh-TW) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK TC'; }
+.pdf:lang(ko-KR) .sans { font-family: Inter, ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, "Apple Color Emoji", Arial, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol", 'Twemoji', 'Noto Color Emoji', 'Noto Sans CJK KR'; }
+.pdf .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .code { font-family: Source Code Pro, "SFMono-Regular", Menlo, Consolas, "PT Mono", "Liberation Mono", Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.pdf .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK JP'; }
+.pdf:lang(zh-CN) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK SC'; }
+.pdf:lang(zh-TW) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK TC'; }
+.pdf:lang(ko-KR) .serif { font-family: PT Serif, Lyon-Text, Georgia, ui-serif, serif, 'Twemoji', 'Noto Color Emoji', 'Noto Serif CJK KR'; }
+.pdf .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK JP'; }
+.pdf:lang(zh-CN) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK SC'; }
+.pdf:lang(zh-TW) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK TC'; }
+.pdf:lang(ko-KR) .mono { font-family: PT Mono, iawriter-mono, Nitti, Menlo, Courier, monospace, 'Twemoji', 'Noto Color Emoji', 'Noto Sans Mono CJK KR'; }
+.highlight-default {
+	color: rgba(55, 53, 47, 1);
+}
+.highlight-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.highlight-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.highlight-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.highlight-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.highlight-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.highlight-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.highlight-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.highlight-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.highlight-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.highlight-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.highlight-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.highlight-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.highlight-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.highlight-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.highlight-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.highlight-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.highlight-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.highlight-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.block-color-default {
+	color: inherit;
+	fill: inherit;
+}
+.block-color-gray {
+	color: rgba(120, 119, 116, 1);
+	fill: rgba(120, 119, 116, 1);
+}
+.block-color-brown {
+	color: rgba(159, 107, 83, 1);
+	fill: rgba(159, 107, 83, 1);
+}
+.block-color-orange {
+	color: rgba(217, 115, 13, 1);
+	fill: rgba(217, 115, 13, 1);
+}
+.block-color-yellow {
+	color: rgba(203, 145, 47, 1);
+	fill: rgba(203, 145, 47, 1);
+}
+.block-color-teal {
+	color: rgba(68, 131, 97, 1);
+	fill: rgba(68, 131, 97, 1);
+}
+.block-color-blue {
+	color: rgba(51, 126, 169, 1);
+	fill: rgba(51, 126, 169, 1);
+}
+.block-color-purple {
+	color: rgba(144, 101, 176, 1);
+	fill: rgba(144, 101, 176, 1);
+}
+.block-color-pink {
+	color: rgba(193, 76, 138, 1);
+	fill: rgba(193, 76, 138, 1);
+}
+.block-color-red {
+	color: rgba(212, 76, 71, 1);
+	fill: rgba(212, 76, 71, 1);
+}
+.block-color-gray_background {
+	background: rgba(241, 241, 239, 1);
+}
+.block-color-brown_background {
+	background: rgba(244, 238, 238, 1);
+}
+.block-color-orange_background {
+	background: rgba(251, 236, 221, 1);
+}
+.block-color-yellow_background {
+	background: rgba(251, 243, 219, 1);
+}
+.block-color-teal_background {
+	background: rgba(237, 243, 236, 1);
+}
+.block-color-blue_background {
+	background: rgba(231, 243, 248, 1);
+}
+.block-color-purple_background {
+	background: rgba(244, 240, 247, 0.8);
+}
+.block-color-pink_background {
+	background: rgba(249, 238, 243, 0.8);
+}
+.block-color-red_background {
+	background: rgba(253, 235, 236, 1);
+}
+.select-value-color-interactiveBlue { background-color: rgba(35, 131, 226, .07); }
+.select-value-color-pink { background-color: rgba(245, 224, 233, 1); }
+.select-value-color-purple { background-color: rgba(232, 222, 238, 1); }
+.select-value-color-green { background-color: rgba(219, 237, 219, 1); }
+.select-value-color-gray { background-color: rgba(227, 226, 224, 1); }
+.select-value-color-translucentGray { background-color: rgba(255, 255, 255, 0.0375); }
+.select-value-color-orange { background-color: rgba(250, 222, 201, 1); }
+.select-value-color-brown { background-color: rgba(238, 224, 218, 1); }
+.select-value-color-red { background-color: rgba(255, 226, 221, 1); }
+.select-value-color-yellow { background-color: rgba(253, 236, 200, 1); }
+.select-value-color-blue { background-color: rgba(211, 229, 239, 1); }
+.select-value-color-pageGlass { background-color: undefined; }
+.select-value-color-washGlass { background-color: undefined; }
+
+.checkbox {
+	display: inline-flex;
+	vertical-align: text-bottom;
+	width: 16;
+	height: 16;
+	background-size: 16px;
+	margin-left: 2px;
+	margin-right: 5px;
+}
+
+.checkbox-on {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20width%3D%2216%22%20height%3D%2216%22%20fill%3D%22%2358A9D7%22%2F%3E%0A%3Cpath%20d%3D%22M6.71429%2012.2852L14%204.9995L12.7143%203.71436L6.71429%209.71378L3.28571%206.2831L2%207.57092L6.71429%2012.2852Z%22%20fill%3D%22white%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+
+.checkbox-off {
+	background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2216%22%20height%3D%2216%22%20viewBox%3D%220%200%2016%2016%22%20fill%3D%22none%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%0A%3Crect%20x%3D%220.75%22%20y%3D%220.75%22%20width%3D%2214.5%22%20height%3D%2214.5%22%20fill%3D%22white%22%20stroke%3D%22%2336352F%22%20stroke-width%3D%221.5%22%2F%3E%0A%3C%2Fsvg%3E");
+}
+	
+</style></head><body><article id="74538409-4c0b-485f-a1f8-b7e303ad7662" class="page sans"><header><h1 class="page-title">Douban &amp; Reddit Case Study</h1><p class="page-description"></p><table class="properties"><tbody></tbody></table></header><div class="page-body"><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0"><mark class="highlight-default">Reddit</mark></summary><div class="indented"><p id="ea245169-1e8c-45b8-b325-e61dd0696f01" class="">
+</p><h2 id="e8afc3c6-87d6-4b7e-836c-d7f4552fd5e7" class="block-color-brown_background"><mark class="highlight-default">How </mark><mark class="highlight-default"><em>Reddit</em></mark><mark class="highlight-default"> find its target audience</mark></h2><p id="d6f434ee-87f7-4592-bdc2-626a60307418" class="">
+</p><div id="2f969e57-edb3-4e80-a57c-6df04751465c" class="column-list"><div id="9b761b19-999d-487f-87b1-6bf2760ffbd8" style="width:93.75%" class="column"><ol type="1" id="427ac2cf-5d70-4bc3-bae9-1722f1eebada" class="numbered-list" start="1"><li><strong>Interest Targeting
+
+</strong>Targeting users based on their interests, determined by content they’ve recently interacted with, including Reddit communities. <p id="bcf61c9c-d5ab-4167-b525-5bfc8713392e" class="">This is based on the IAB standard, and are built using classifications of communities that <em>users subscribe to or visit</em>.</p><p id="151ec841-c668-42f2-9c77-1d40a84251cc" class="">
+</p><figure id="bb4fc840-e609-467f-b32d-0a9edc9910fc" class="image"><a href="Douban%20&amp;%20Reddit%20Case%20Study%20745384094c0b485fa1f8b7e303ad7662/Untitled.png"><img style="width:288px" src="Douban%20&amp;%20Reddit%20Case%20Study%20745384094c0b485fa1f8b7e303ad7662/Untitled.png"/></a></figure></li></ol><p id="706fc904-401a-4a40-936c-b185ab62a535" class="">
+</p><p id="aaf3e1fd-5a8d-41f0-ada1-a6b22fa17ff5" class="">
+</p></div><div id="7b1c4c18-461c-4397-989c-94615477fc9e" style="width:68.75000000000001%" class="column"><p id="09c08b7f-0f1e-4061-a444-dc3068286505" class=""><span style="border-bottom:0.05em solid"><mark class="highlight-yellow_background">[Examples of interest groups]</mark></span><mark class="highlight-blue"> </mark></p><ul id="84d1716f-5252-49d2-8251-60486708e8e3" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-brown">Business &amp; Finance</mark></li></ul><ul id="39de983e-fa4d-423c-a9f3-6bcadd83790f" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-brown">News &amp; Education </mark><ul id="0e373df2-0328-48fd-ba87-92c9d3abdc1b" class="bulleted-list"><li style="list-style-type:circle"><mark class="highlight-brown">interest </mark><em><mark class="highlight-brown">subgroup</mark></em><ul id="3dff6683-32d1-4b2a-914e-4f8f5ebf5fa3" class="bulleted-list"><li style="list-style-type:square"><em><mark class="highlight-brown">US News &amp; Politics, </mark></em></li></ul><ul id="797e6e1c-93a7-48ad-9022-d8f4facb492d" class="bulleted-list"><li style="list-style-type:square"><em><mark class="highlight-brown">World News &amp; Politics, </mark></em></li></ul><ul id="106eb0e2-6fa7-45b7-b949-4451b6eb6dda" class="bulleted-list"><li style="list-style-type:square"><em><mark class="highlight-brown">Studying &amp; Education, </mark></em></li></ul><ul id="f3e58824-e759-4aa4-a436-c28292dd1e60" class="bulleted-list"><li style="list-style-type:square"><em><mark class="highlight-brown">Languages</mark></em></li></ul><ul id="4d7f0329-f0f0-4671-8e27-63a15e15ab10" class="bulleted-list"><li style="list-style-type:square"><em><mark class="highlight-brown">Science</mark></em><mark class="highlight-brown"> </mark></li></ul></li></ul></li></ul><ul id="332b3abd-0069-43fc-b168-c9915cf033d8" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-brown">Entertainment</mark></li></ul><ul id="130dd8e8-63e1-456e-bb2e-6bcfaadf8fe2" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-brown">Automotive</mark></li></ul><ul id="e41f6506-263b-46ea-9ddf-c188b72e5990" class="bulleted-list"><li style="list-style-type:disc"><mark class="highlight-brown">Television &amp; Film</mark><ul id="b9b444ae-5284-45bd-b687-3c03692c7f4f" class="bulleted-list"><li style="list-style-type:circle"><mark class="highlight-brown">interest subgroup</mark><ul id="330fe343-77e1-4b79-a123-ffc1f97c0593" class="bulleted-list"><li style="list-style-type:square"><mark class="highlight-brown">‘General News &amp; Discussion’ </mark></li></ul><ul id="ee2d65ae-ab34-447b-af92-71f3431ce143" class="bulleted-list"><li style="list-style-type:square"><mark class="highlight-brown">movie-genre-based categories</mark></li></ul></li></ul></li></ul><p id="184f1129-7865-4c52-abd2-c31f4dec6166" class="">
+</p><p id="d7a6d88c-09da-463e-aeef-a45804ea6a07" class="">*a <a href="https://reddit.my.site.com/helpcenter/s/article/Interest-targeting-new-interests">more detailed breakdown</a><mark class="highlight-brown"> </mark>of interest group</p><p id="42084c23-f60a-4552-80f5-f8ec8d968f7f" class="">
+</p><p id="1ff514e2-cebb-4954-b5d8-f5f7b83da5cb" class="">
+</p></div></div><div id="c4288191-9a00-4963-a4e6-94a29096756b" class="column-list"><div id="b6054193-e487-463d-9775-7ea47f8e87c4" style="width:112.5%" class="column"><ol type="1" id="9fca74ad-a9fa-4c72-88ea-ba1f27d43696" class="numbered-list" start="2"><li><strong>Subreddits/Community Targeting</strong><p id="6fc83718-bf25-4fae-8f29-cb53fe71c64c" class="">
+Allowing for hyper-specific content niches. A user interested in a particular topic can join a <em>subreddit</em> dedicated to that subject. </p><p id="3596e136-7394-4758-9089-0f4d6f5ae1aa" class="">
+</p><p id="afb08548-7d73-44bb-adbf-e722b1940cfa" class="">
+</p><p id="b1fb1c73-ba37-4f76-bd8c-b696434e9e32" class=""><mark class="highlight-default">Users can also customize their front page (user profiles) by subscribing to specific </mark><mark class="highlight-default"><em>subreddits</em></mark><mark class="highlight-default">. </mark></p><p id="1d4cbf05-6305-43c7-b83d-1556639d8e27" class="">
+</p><p id="0ef0d251-0d21-4d97-bd79-54fbec4eae76" class="">Targeting users based on communities they’ve subscribed to. Community targeting also includes users who have viewed or visited the communities<em> in the last 28 days</em>, regardless of subscription status.</p></li></ol><p id="cf7d9230-fbaa-4f5e-beb5-d69ca5e5f95c" class="">
+</p><p id="b3aaf778-e9d4-4e8f-84fb-eecfcd37daf2" class="">
+</p></div><div id="3b584b77-5547-4c99-9e76-73fa579cdf5c" style="width:62.5%" class="column"><p id="dc8d38da-0965-441f-84a8-e72338508a7f" class="">
+</p><p id="23edc050-ff61-48c3-8e5e-fb8b906a1c97" class="">
+</p><p id="b562d098-65ad-492b-a0fe-32a07deafa1c" class="">*<mark class="highlight-yellow_background">This self-selection process naturally segments the audience.</mark></p><p id="f428be96-e171-4fb2-b0ba-beda43fe42a7" class="">
+</p><p id="6a034938-4a4c-40f9-95fb-e0ceba6b591d" class="">
+</p><p id="f37359e6-a335-49bb-a148-1cbc7eb00b0a" class="">*<mark class="highlight-yellow_background">This means that the content they see when they log in is tailored to their interests.</mark></p><p id="31e69b73-30c3-4b4d-8e8d-a93a9cc706cd" class="">
+</p><p id="4aa28335-72d3-45d6-a7de-290369c465bf" class="">
+</p></div></div><ol type="1" id="8b96ac7d-00e6-4059-88ab-63b5c1ce1088" class="numbered-list" start="3"><li><strong>Keyword Targeting [Beta]</strong><p id="09a72c35-868c-4ad6-8643-2a662e4accb4" class="">Advertisers can choose specific keywords they want to target.</p><div id="922a0732-c8bb-449f-9d9b-4a90b819c9ea" class="column-list"><div id="ed89cd7b-2241-470f-aaf8-4411b08ec9a6" style="width:100%" class="column"><p id="1f4580b5-8b31-4ae3-896b-5154604a06c0" class="">Offering different types of matches, broad or exact. For example, a broad match would mean that ads could appear for related terms or slight variations of the targeted keywords. An exact match would limit the display to instances where the exact keyword phrase is used.</p><p id="8530af45-5bfc-4fd5-9d19-7349264cd45f" class="">
+</p><p id="6b8b8b4b-e7a1-4a92-aeed-8636c892a94b" class="">By targeting ads based on <em>user interactions</em> and the content they engage with, there&#x27;s a higher likelihood that the ads will <em>resonate</em> with the user.</p></div><div id="4518f1a4-912c-4fe6-ac3e-9da1d35aa174" style="width:62.50000000000004%" class="column"><p id="5e344d99-ba99-4ed3-8382-1b5b849c5270" class="">*<mark class="highlight-yellow_background">The goal of this feature is to increase the relevance of ads for users. </mark></p></div></div><p id="59189de3-9fa6-4cd2-99c5-1c00f402feb5" class="">
+</p></li></ol><p id="d9c7f488-e9a9-40b0-90cf-99d55308c470" class="">
+</p><hr id="2b5e2661-c284-431c-8d5f-d507c3b26b56"/><p id="5a0c5ebd-3d12-4e44-87e5-7dc11212f673" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">豆瓣 <strong>Douban</strong></summary><div class="indented"><p id="a419d976-d924-4cdb-8f07-928eb0c0cb87" class="">
+</p><figure id="5b2722e0-396b-49e9-ba40-af14fb84382e" class="image" style="text-align:center"><a href="Douban%20&amp;%20Reddit%20Case%20Study%20745384094c0b485fa1f8b7e303ad7662/doubantimeline.png"><img style="width:672px" src="Douban%20&amp;%20Reddit%20Case%20Study%20745384094c0b485fa1f8b7e303ad7662/doubantimeline.png"/></a></figure><div id="c40acae5-b028-4830-b291-0eb8fd3b4795" class="column-list"><div id="6179d677-91f7-490d-87db-e14f851886bd" style="width:112.5%" class="column"><ul id="2f689981-355d-4884-a292-39bd8479bc70" class="bulleted-list"><li style="list-style-type:disc"><strong>Platform Style and Evolution</strong><ul id="a9aca2ee-4def-4818-8de5-c108e1c234eb" class="bulleted-list"><li style="list-style-type:circle"><em>Douban</em>&#x27;s platform design is often perceived as remaining rooted in the *Web 2.0 era.</li></ul><ul id="900ea4b5-4bf9-4fbc-9970-40744ebd58ed" class="bulleted-list"><li style="list-style-type:circle">Unlike other social platforms, <em>Douban</em> hasn&#x27;t heavily invested in advertisements, resulting in a <strong>less commercialized experience</strong> for users.</li></ul><ul id="74673d23-0904-4685-b35a-9013f484ada8" class="bulleted-list"><li style="list-style-type:circle">Comments made on <em>Douban</em> often serve as benchmarks in the media.</li></ul><p id="091892c3-68c8-4412-ae69-d6348bd8480d" class="">
+</p></li></ul><ul id="f043af1f-9fb6-4e58-80e3-d4c09f2c352c" class="bulleted-list"><li style="list-style-type:disc"><strong>Content Shift</strong><ul id="1d9a64b4-4a12-4c6b-846d-7411ef0e6a05" class="bulleted-list"><li style="list-style-type:circle">Historically known as an accommodating haven for the people to include all kinds of voice.</li></ul><ul id="7621a575-c6ec-4823-99cd-bb1d8f1e0d53" class="bulleted-list"><li style="list-style-type:circle">recent years people start to see a rise in topics like celebrity gossip, current events (socially &amp; politically), as well as subculture trends.</li></ul><ul id="e206d396-5d11-4e31-ac1a-ddc81b8380a3" class="bulleted-list"><li style="list-style-type:circle">The platform has popularized internet slang terms such as &quot;凡尔赛”（’<strong>humblebraggers’)</strong>, &quot;小镇做题家 (’<strong>small-town swot’)</strong>,&quot; etc.</li></ul><p id="37034bfb-d8da-4dab-8f63-62a1cf7bed18" class="">
+</p></li></ul><ul id="3b98aaf7-9fa2-481c-a6d7-df3b86d5aaae" class="bulleted-list"><li style="list-style-type:disc"><strong>Role as a Free Speech Oasis</strong><ul id="f5bd9021-0e7a-43f6-819d-99e8a591915e" class="bulleted-list"><li style="list-style-type:circle"><em>Douban</em> has been a relatively free space on the Chinese internet where diverse voices could be heard*.</li></ul><ul id="60441c9e-e981-43e5-bf04-256534d4582a" class="bulleted-list"><li style="list-style-type:circle">Compared to platforms like Weibo and WeChat, <em>Douban</em> wasn&#x27;t overly strict with its content review unless a post gained significant traction at the beginning.</li></ul><ul id="d5ceb96a-f77f-4758-90cb-d01722a20abe" class="bulleted-list"><li style="list-style-type:circle">During the peak of the Me Too movement in China, accusations of sexual assault or related incidents posted on <em>Douban</em> would often gather thousands of comments in a short period before potentially being removed, with users actively sharing the content.<p id="55afaaf2-a0f8-48ba-a594-76604bd94b4a" class="">
+</p></li></ul></li></ul></div><div id="7544f894-c103-4be5-a2d1-8720d9e423b3" style="width:50%" class="column"><p id="15d8d11a-256f-4ac8-95ed-29865643eb30" class="">
+</p><p id="7a41690f-0669-4db7-9f2d-8d02d2aff90e" class="">*<mark class="highlight-yellow_background">Web 2.0 era emphasize user-generated content, ease of use, participatory culture and interoperability for end users. </mark></p><p id="365865b0-7354-415a-8725-deb07eb7c1a7" class="">
+</p><p id="67238ac1-95fb-4d59-b6a5-5a215f31ee74" class="">
+</p><p id="3888d235-fd24-4e0c-aeab-56c8c0773a0e" class="">
+</p><p id="70f026fe-acc2-4899-8d8b-c953e11b1153" class="">
+</p><p id="eff9ed9a-59e3-4bc4-b485-a48cd5dca6af" class="">
+</p><p id="d95a1ee5-97c5-48f5-92d4-1baa471dfb6f" class="">
+</p><p id="2a3529d4-bc95-42d3-b82b-19f689f4efef" class="">
+</p><p id="2fffa522-3dd4-4e70-bb01-7f2dd5af6a13" class="">
+</p><p id="75357cf1-2ec8-45ce-833e-91ff2bbb3b50" class="">
+</p><p id="4f694266-769a-4efd-8a07-878e43ac12a1" class="">
+</p><p id="ea71f908-e401-4a83-bf76-a615e69a4a4f" class="">*<mark class="highlight-yellow_background">From women&#x27;s rights issues to the recent ‘Me Too’ movement, and personal experiences shared during the Shanghai lockdown, </mark><mark class="highlight-yellow_background"><em>Douban</em></mark><mark class="highlight-yellow_background"> users have been proactive in advancing societal discussions.</mark></p><p id="08411889-3323-42ed-bf21-01b6cc9c93d2" class="">
+</p></div></div><figure class="block-color-blue_background callout" style="white-space:pre-wrap;display:flex" id="7d6c6f72-e705-460b-af63-0b56e43033e9"><div style="font-size:1.5em"><span class="icon">📌</span></div><div style="width:100%"><strong>Among the few Chinese-centered social media platforms with comprehensive movie databases, some entries for musics, films, and books today in </strong><em><strong>Douban</strong></em><strong> are slowly vanishing due to sensitive contents.
+
+Every post and response is subject to scrutiny, and the basis for such reviews might extend beyond the presence of sensitive words or pictures.</strong></div></figure><p id="15129066-42aa-48d6-91e2-4a0433d0997e" class="">
+</p><hr id="d7a79bdb-a46b-4d8f-9f76-ddeba95b27bf"/><p id="bb51545a-622d-4db5-8793-f38b46edc501" class="">
+</p><h3 id="0d93d529-b821-463b-b69a-94031fedbfd8" class="block-color-pink_background">豆瓣小组 Douban Groups </h3><p id="a0d262c4-c2cd-4924-8689-d95ceaafb913" class="">
+</p><ul id="ec4b7070-bedd-460f-8dd3-dabab747a057" class="bulleted-list"><li style="list-style-type:disc">Douban Groups are divided into<strong> 20</strong> categories, which are: New-in Groups, Featured Topics, TV Show Fans, Books/Movies/Music, Humanities/Culture, Fun &amp; Leisure, Lifestyle, Foodie, Home, Sports Enthusiasts, Pet Lovers, Arts, Technology, Relationships, Science &amp; Nature, Study Groups, Campus Life, Anime, Comics &amp; Games, Work &amp; Career, and Finance. (<strong>新组，专题，追剧，书影音，人文，闲趣，生活，美食，家居，体育运动，宠物，艺术，科技，情感，科学自然，学习，校园，ACG，职场，理财)</strong><p id="cfdd53ef-ff4b-45ff-8698-1102517969c4" class=""><em><mark class="highlight-yellow_background">*New-in Groups refers to recently established groups. The aim is to ensure enough exposure for these new groups to grow while preventing larger groups (with many active users and high topic engagement) from growing excessively.</mark></em></p></li></ul><p id="f00f48cb-ca38-4bc1-bdd0-814e33139681" class="">
+</p><ul id="2f6ce330-adc5-48ae-884e-bd54cb5907ec" class="bulleted-list"><li style="list-style-type:disc">Douban users usually search/join groups in two ways:<ul id="4882c654-c71c-40cb-8cf0-02a5e7cbe78d" class="bulleted-list"><li style="list-style-type:circle">search specifically for something they have in mind, <strong>OR</strong></li></ul><ul id="301ffda5-c6ff-4b7a-8a41-ac0636d43f5f" class="bulleted-list"><li style="list-style-type:circle">simply browse without a clear goal</li></ul></li></ul><p id="16705ca4-7a94-4434-8c63-c1d2907c9d62" class="">
+</p><ul id="a9e014c2-6a22-48f4-8d4d-1a792babfd4d" class="bulleted-list"><li style="list-style-type:disc"><strong>High Threshold and Privacy</strong><ul id="a1fbf5cc-36c8-415b-afa9-7719b5718ced" class="bulleted-list"><li style="list-style-type:circle">Today, Gen-Z and Millennial users on <em>Douban</em> are pushing back against mainstream cultural norms, as a way of resisting assimilation by mainstream culture.</li></ul><ul id="478002af-1ad0-4b7a-9d35-01866867b058" class="bulleted-list"><li style="list-style-type:circle"><em>Douban</em> offers a tranquil space for their deep contemplation.</li></ul><ul id="e7e12759-5c74-42b1-bf1e-b20868d2267a" class="bulleted-list"><li style="list-style-type:circle">They seek a <strong>profound experience</strong> and <strong>insight</strong> through &quot;expression&quot; and &quot;feeling&quot; that other social media platforms can&#x27;t offer</li></ul><ul id="ad1e1186-c180-4b9b-950f-6ef57bb50342" class="bulleted-list"><li style="list-style-type:circle"><strong>They no longer skim the surface of life but willing to delve deep, gaining a more enriched understanding and experience</strong></li></ul><p id="9d278910-9833-4a3a-9fc6-faae49aee5b5" class="">
+</p></li></ul><ul id="91985b37-8e66-426a-b18d-527bf7712275" class="bulleted-list"><li style="list-style-type:disc"><strong>Core Product Format: BBS</strong><p id="27fe1dcb-d4a8-49ae-9a90-3edfa2de302b" class=""><mark class="highlight-blue"><strong>Pros</strong></mark></p><ul id="b32bf000-7310-4a22-9d7c-eb020ca945bc" class="bulleted-list"><li style="list-style-type:circle">Transparent information; high user freedom leads to frequent interactions and the formation of close-knit circles.</li></ul><ul id="22d0646f-56ef-4715-a814-ef47ae6aa127" class="bulleted-list"><li style="list-style-type:circle">Long-term community evolution creates a unique group culture, attracting new users.</li></ul><ul id="6339c773-b31c-4ecb-a5c0-33678d4ae95d" class="bulleted-list"><li style="list-style-type:circle">Users can strengthen their relationships over time through continuous community interaction.</li></ul><p id="e2e6ddb0-2e53-4bd5-b51a-008332fd1c88" class=""><mark class="highlight-red"><strong>Cons</strong></mark></p><ul id="77d70261-c8e4-4840-91e1-ae7f0e422688" class="bulleted-list"><li style="list-style-type:circle">This unique community culture can, in the meantime, act as a barrier to newcomers, hindering their understanding and participation.</li></ul><ul id="a24a1bc1-40e1-47ea-88a3-769d53dc7f20" class="bulleted-list"><li style="list-style-type:circle">Small, insular circles can form, making information flow challenging  in some aspects.</li></ul></li></ul><p id="183f105c-7322-4459-bf7a-265ec4482f32" class="">
+</p><ul id="6f7f9146-a8c4-46bd-b8bb-fd0b28ddcbfc" class="bulleted-list"><li style="list-style-type:disc"><strong>User-Generated Contents (UGC)</strong><p id="74ab071f-4c8e-4679-921f-5658725c98ff" class=""><mark class="highlight-blue"><strong>Pros</strong></mark></p><ul id="06341676-cb22-40fa-a54a-3d4b2676ca1f" class="bulleted-list"><li style="list-style-type:circle">High user autonomy leads to a wider range of interests and the creation of more groups.</li></ul><ul id="9195fe47-24c2-489a-90e8-1fc0d6272283" class="bulleted-list"><li style="list-style-type:circle">The volume of UGC is directly proportional to the user base</li></ul><ul id="143436cd-9024-48e4-8769-a8d9f4ec14dc" class="bulleted-list"><li style="list-style-type:circle">Group/group themes are decided by the user community, fostering a stronger sense of belonging and community spirit.</li></ul><p id="896ffcb4-3410-4147-9b6b-59120aab2d10" class=""><mark class="highlight-red"><strong>Cons</strong></mark></p><ul id="7a94101c-a89b-4eae-8df0-e86828542396" class="bulleted-list"><li style="list-style-type:circle">The increase in user numbers has led to an overwhelming amount of information and inconsistent content quality</li></ul><ul id="c4a3c4c9-eabd-4dc0-b102-2c17beb48cac" class="bulleted-list"><li style="list-style-type:circle">Content management can be more challenging as the volume of user posts increases.</li></ul><ul id="7de6cf69-845e-43d6-acb0-0c4674aa4cac" class="bulleted-list"><li style="list-style-type:circle">Overlapping interest groups can emerge, making it harder for users to choose.</li></ul></li></ul><p id="30cbbba9-03b3-4f04-a203-8f74f2f9eb7b" class="">
+</p><p id="3c060c40-540a-48f2-869f-2c260a8c4b38" class=""><mark class="highlight-pink"><strong>Main Challenges for Douban</strong></mark></p><ul id="e5914974-423a-4c9d-bfef-a01d4ab89a4c" class="bulleted-list"><li style="list-style-type:disc">The increase in user numbers has led to an overwhelming amount of information and a decline in quality.</li></ul><ul id="15327522-40c9-4896-8ea9-4d3e8d230a06" class="bulleted-list"><li style="list-style-type:disc">While books, films, and music don&#x27;t have a massive user base, the move away from commercialization has, in the meantime, led to<strong> limitations in functionality and a roadblock in user experience.</strong> For example, niche movies/books/music lack streaming resources; users can comment but can&#x27;t access a direct link to watch or listen.</li></ul><p id="2b9e75c3-1955-4821-b81a-d7af85507fee" class="">
+</p><hr id="8b45e066-4fd7-4bd8-91da-92933ac0dd32"/><p id="06808f31-a3e5-4cf9-8796-714b4d7f6a63" class="">
+</p><details open=""><summary style="font-weight:600;font-size:1.5em;line-height:1.3;margin:0">Potential strategies for <em>MyVoice</em></summary><div class="indented"><p id="e835ed99-a297-4162-a7c2-948e0936fb4f" class="">
+</p><h3 id="8244a42a-55e7-4b28-b17d-8a9e3cb2c92e" class="block-color-yellow_background">1. <strong>Target Audience Profiling</strong></h3><p id="16648972-2556-4856-804f-248d936ebf66" class="">
+</p><p id="2f1687c8-b481-4311-b92b-55ef2cb8460f" class="">Audience profiling can be generated based on three dimensions:<strong> </strong><mark class="highlight-orange"><strong>user behavior</strong></mark><strong>, </strong><mark class="highlight-blue"><strong>user needs</strong></mark><strong>, </strong><mark class="highlight-pink"><strong>user pain point</strong></mark><strong>.</strong></p><p id="80315bf3-0be5-4514-98ce-4ea94bf81c03" class="">
+</p><p id="064996f6-d24b-4897-b3a4-0edd10dca743" class=""><strong><mark class="highlight-orange">Users Behavior</mark></strong></p><ul id="d555933e-be38-41f0-a4fb-8b65857f6ff0" class="bulleted-list"><li style="list-style-type:disc">How often users create, comment on, like, or share high-quality content
+<mark class="highlight-orange">[</mark><mark class="highlight-orange"><em>Quantifying these aspects will be crucial for in-depth analysis when shaping our user profiles.</em></mark><mark class="highlight-orange">]</mark></li></ul><ul id="b5f4954c-585d-4995-913f-935dd05db399" class="bulleted-list"><li style="list-style-type:disc">Users can choose up to 3 hashtags that best describe their content. This helps those targeting specific content to have a more tailored experience and save time</li></ul><ul id="e08e863f-1168-4971-b7a9-271a73f169a1" class="bulleted-list"><li style="list-style-type:disc">Topics they follow</li></ul><ul id="ddd30e10-63f5-4df2-a1aa-e699771cfd9a" class="bulleted-list"><li style="list-style-type:disc">How often they post reviews on movies or books</li></ul><ul id="80280860-c852-4c46-a931-a30ea84da89c" class="bulleted-list"><li style="list-style-type:disc">How regularly they participate in offline events or local meetups</li></ul><p id="b24a2ac0-5c48-41f7-b7e7-ac28879a9ce9" class="">
+</p><p id="4a4757ec-e229-4dcc-9095-eb4c26011679" class=""><mark class="highlight-blue"><strong>User Needs </strong></mark></p><ul id="d9e1cb79-1aac-4c2f-ac67-86a0a82648e3" class="bulleted-list"><li style="list-style-type:disc"><strong><em>Contents</em></strong><ul id="ab32af14-44b1-468e-83d6-093ebc3f8316" class="bulleted-list"><li style="list-style-type:circle">Original content generating</li></ul><ul id="4edc1187-8fe2-4591-8699-16e17a284979" class="bulleted-list"><li style="list-style-type:circle">Expressing personal insights, experiences, and perspectives</li></ul><ul id="256b020b-5e4e-4301-b965-1a7f1cf415f6" class="bulleted-list"><li style="list-style-type:circle">Crafting unique posts that reflect individual creativity and voice</li></ul><ul id="8af52611-c23b-43f5-9d8e-86e0ce78a8d7" class="bulleted-list"><li style="list-style-type:circle">Using multimedia elements, such as images, videos, or audio, to enhance content</li></ul><ul id="8c90b2a5-c858-4cd5-929d-6af22dcf9d95" class="bulleted-list"><li style="list-style-type:circle">Curating lists or collections based on personal preferences or expertise</li></ul></li></ul><ul id="cdb1850d-791a-4f63-9a07-b389cee88ff0" class="bulleted-list"><li style="list-style-type:disc"><em><strong>Sharing</strong></em><ul id="a2cd3bd3-170e-44d9-b62c-ef04aeaf59f4" class="bulleted-list"><li style="list-style-type:circle"><strong>Engaging with a Community of Like-minded Individuals</strong><ul id="37d9eda0-6912-4a4d-a4ab-52ede7a82bce" class="bulleted-list"><li style="list-style-type:square">Participating in discussions and debates on shared interests</li></ul><ul id="4ccf4752-8f44-4230-8946-caecd16247f7" class="bulleted-list"><li style="list-style-type:square">Offering feedback, suggestions, or constructive criticism on others&#x27; content</li></ul></li></ul><ul id="d5a5d3df-9d77-48a5-96cd-acca7ad4f652" class="bulleted-list"><li style="list-style-type:circle"><strong>Using the Platform as a Space to Share Daily Moments</strong><ul id="10caf107-3690-4b9a-86b7-ca23bb5a583b" class="bulleted-list"><li style="list-style-type:square">Posting updates, stories, news, or anecdotes from daily life</li></ul><ul id="30419bb6-41c6-44a1-b815-8817e14f2ab4" class="bulleted-list"><li style="list-style-type:square">Access to unfiltered news and unbiased discussions</li></ul><ul id="83267b51-0ed5-49f1-b6c7-e1da2fb4ddef" class="bulleted-list"><li style="list-style-type:square">A strong appetite for uncensored content</li></ul><ul id="d7f2fe97-06de-46c0-950a-6cffee2275b3" class="bulleted-list"><li style="list-style-type:square">Genuine, unrestricted communication</li></ul><ul id="06d331f0-4682-4f74-ad38-ac7e6b378884" class="bulleted-list"><li style="list-style-type:square">Sharing personal milestones, achievements, or challenges and receiving support from the community.</li></ul></li></ul><ul id="ab29d286-b059-421b-9346-37df201dc35c" class="bulleted-list"><li style="list-style-type:circle"><strong>Bonding with Online Acquaintances</strong><ul id="345ec786-ba85-44ca-981d-5828c9933eba" class="bulleted-list"><li style="list-style-type:square">Building deeper connections through direct messaging or private interactions</li></ul><ul id="1f2e5c77-91bb-4814-96dc-f2c6fe00c118" class="bulleted-list"><li style="list-style-type:square">Providing a sense of cultural and linguistic familiarity</li></ul></li></ul></li></ul><ul id="750b5cb3-6c35-482c-81d8-1bf4e948839f" class="bulleted-list"><li style="list-style-type:disc"><em><strong>Social Connections &amp; Networking</strong></em><ul id="15a78d04-f03f-45f7-ba9e-c3d0da99ee01" class="bulleted-list"><li style="list-style-type:circle"><strong>Seeking Out and Befriending Intriguing Individuals</strong><ul id="9a5a4b82-1c70-4d49-a73e-a0cebae1ce33" class="bulleted-list"><li style="list-style-type:square">Discovering users with unique perspectives or backgrounds, especially for retired journalists, writers, intellectuals, and public-minded citizens who&#x27;ve faced restrictions on other platforms</li></ul><ul id="5a2e4a4a-1d82-4706-a4e6-c50d57b7e938" class="bulleted-list"><li style="list-style-type:square">Values and amplifies users’ wealth of experience and insights.</li></ul><ul id="0446290e-01fb-4cd7-bb26-a96c3632b3eb" class="bulleted-list"><li style="list-style-type:square">Reestablishing their sense of purpose in a community that respects and values their vast contributions.</li></ul><ul id="22449fb1-23cc-428d-8ca4-d0c26a08866f" class="bulleted-list"><li style="list-style-type:square">Expanding one&#x27;s social circle by engaging with different user profiles</li></ul></li></ul><ul id="f8a3bc4f-8283-4683-8c02-303d315ae003" class="bulleted-list"><li style="list-style-type:circle"><strong>Building Connections with Local Users</strong><ul id="9242d3ed-9fbe-45e9-a0d6-c6122cd0f66e" class="bulleted-list"><li style="list-style-type:square">Participating in local events, meetups, or gatherings organized through the platform</li></ul><ul id="abab9fbe-e197-4956-b043-89ac901222c8" class="bulleted-list"><li style="list-style-type:square">A platform that values overseas students &amp; scholars global insights combined with local context</li></ul></li></ul></li></ul><p id="8994cb2e-d8b8-4357-a50a-37e867bc286f" class="">
+</p><p id="ab31f041-1691-4d33-bbca-d616f0ee9094" class=""><mark class="highlight-pink"><strong>User Pain Points</strong></mark></p><ul id="d84c0b4d-63bd-4027-bb3c-1fba7ebe9da6" class="bulleted-list"><li style="list-style-type:disc"><strong><em>Content management</em></strong><ul id="3bd68764-4aaa-4926-ac2e-3831492850fd" class="bulleted-list"><li style="list-style-type:circle">Users joined too many groups and might get overwhelmed by the influx of new information</li></ul><ul id="9ba3949c-a6db-40dc-95fc-4d4cb7a826a0" class="bulleted-list"><li style="list-style-type:circle">Concerned about the quality of group discussions and the presence of &quot;shill&quot; accounts or spam</li></ul><ul id="adc73935-c307-498f-b49e-7500d8206bf0" class="bulleted-list"><li style="list-style-type:circle">Privacy and personal safety</li></ul><ul id="e07706e5-55bf-47c2-a320-c3def1557581" class="bulleted-list"><li style="list-style-type:circle">Seeking a comfortable interaction experience, positive encounters with strangers, and protection of personal space.</li></ul></li></ul><p id="f062796b-8842-4511-bd95-393f4557e80f" class="">
+</p><p id="4a8b28fa-cb87-4d58-b8fd-1fcb07b63701" class="">
+</p><h3 id="d2d7f7be-4a88-4ad9-b8c0-8ebd8ffe0931" class="block-color-yellow_background">2. O<strong>ffline Grouping / Local Gathering</strong></h3><p id="01556258-c925-495d-ae73-18007a112bf9" class="">
+</p><ul id="0b2d3d86-3008-453f-bd3b-d9d8cf9565e9" class="bulleted-list"><li style="list-style-type:disc"><strong>Offline Topic Integration</strong><ul id="4de5de75-2c3e-49b9-886d-9c5980e58390" class="bulleted-list"><li style="list-style-type:circle">Literary and art-related topics are the most suitable for offline integration and local gathering. Currently, there are fewer &quot;Douban Local&quot; events, and user engagement is not significantly high comparing to online users.</li></ul><ul id="ce925591-11b6-4a0d-96b3-17282ce1bec4" class="bulleted-list"><li style="list-style-type:circle">Douban can leverage the popularity of various topics and organize offline events based on online discussions, integrating with the knowledge circulation system mentioned earlier.</li></ul><ul id="dae8bb7f-1211-43ee-881d-8459e5e2d0b6" class="bulleted-list"><li style="list-style-type:circle">Knowledgeable individuals with unique perspectives (journalists, social activists, scholars, authors, moviemakers, screenwriters) can be invited as guest speakers, while interested users can attend as the audience.</li></ul><ul id="82dfa178-9117-47e3-99ea-ad7c65e84241" class="bulleted-list"><li style="list-style-type:circle">To add more commerciality to these offline events, cross-sector collaborations can be explored, such as partnerships with independent bookstores, coffee shops, live music venues, movie theaters, and more.</li></ul></li></ul><p id="398ff56a-12e4-4e98-8b43-71d10d59cb73" class="">
+</p><p id="85c878d4-1433-409d-a209-bd97330c3011" class="">
+</p><p id="3816b902-956d-4dab-b3e3-7c6e4598c5cc" class="">
+</p><p id="7f8d9b1a-eb59-4c32-99f1-fb3f88f9cd22" class="">
+</p><p id="ff2c7a7e-b04b-412b-84b1-9080f9afab5d" class="">
+</p></div></details></div></details></div></details></div></article></body></html>
